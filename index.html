@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Arène des Créatures</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="cv" width="640" height="360"></canvas>
+  <div id="ui">
+    <div id="joy"><div id="knob"></div></div>
+    <div id="btns">
+      <button class="ab" id="b0"></button><button class="ab" id="b1"></button><button class="ab" id="b2"></button>
+      <button class="ab" id="b3"><b>Esquive</b><i></i></button><button class="ab" id="b4"><b>Relève</b><i></i></button>
+    </div>
+  </div>
+  <button id="pauseBtn" title="Pause">❚❚</button>
+  <div id="menu"></div>
+</div>
+
+<!-- ORDRE IMPORTANT : ne change pas l'ordre de ces lignes -->
+<script src="data/types.js"></script>
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/input.js"></script>
+<script src="js/gfx.js"></script>
+<script src="js/rig-monsters.js"></script>
+<script src="js/render.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/combat.js"></script>
+<script src="js/arena.js"></script>
+<script src="data/pokemon.js"></script>
+<script src="data/pokemon-more.js"></script>
+<script src="js/pokemon-loader.js"></script>
+<script src="js/pokemon-register.js"></script>
+<script src="js/pokemon-abilities.js"></script>
+<script src="js/pokemon-moves.js"></script>
+<script src="js/pokemon-render.js"></script>
+<script src="js/aim.js"></script>
+<script src="data/menu.js"></script>
+<script src="data/stages.js"></script>
+<script src="js/save.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/modes.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
