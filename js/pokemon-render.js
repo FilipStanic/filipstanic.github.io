@@ -37,7 +37,7 @@ mon = function(o, en){
   const T = S.TOT, t = G.time, wk = (o.wm || 0) > .25;
   const tx = o.tx ?? (en ? 0 : W), ty = o.ty ?? o.y, row = rowOf(Math.atan2(ty - o.y, tx - o.x));
   let an, tk, loop = 1;
-  if(o.hp <= 0 && en){ if(o.ko === undefined) o.ko = t; an = animName(S, 'faint', 'Hurt'); tk = (t - o.ko)*72; loop = 0; }
+  if(o.hp <= 0){ if(o.ko === undefined) o.ko = t; an = animName(S, 'faint', 'Hurt'); tk = (t - o.ko)*72; loop = 0; }
   else if(o.ann && (an = resolveAnim(S, o.ann.an) || 'Idle', (t - o.ann.t0)*60*AS < T[an])){ tk = (t - o.ann.t0)*60*AS; loop = 0; }
   else if(o.fl){ an = animName(S, 'fly', 'Idle'); tk = Math.min(.99, (t - o.fl.t0)/o.fl.tot)*T[an]; loop = 0; }
   else if(o.rs){ an = resolveAnim(S, o.rs.an) || 'Attack'; tk = rsTick(o.rs, t - o.rs.t0); loop = 0; }

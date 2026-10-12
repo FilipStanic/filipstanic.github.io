@@ -115,3 +115,24 @@ Il faut au moins 6 Pokémon chargés pour créer des équipes 6v6. Les équipes 
 - 6 arènes en pixel art (`js/arena.js`) : prairie, grotte cristalline, désert, banquise, cratère de lave, ruines. Le décor est dessiné en
   demi-résolution puis agrandi x2, comme les sprites. Les niveaux solo les utilisent dans `data/stages.js` (`STAGE_ARENAS`).
 - Chaque arène a 13 emplacements de rochers destructibles (`ROCK_LAYOUT`) et des effets d'ambiance (braises, étincelles, poussière).
+
+## Plein écran, options, effets (v4)
+- **Plein écran** : bouton ⛶ (bas de l'écran), touche F, ou Options. Sur Android le jeu se verrouille en paysage.
+  Pour un plein écran « comme une appli » (aussi sur iPhone) : ouvre le jeu en **https** (ou localhost) et choisis
+  « Ajouter à l'écran d'accueil » : `manifest.json` + `sw.js` s'occupent du reste.
+- **Options** (menu principal ou pause) : volume général / effets / musique, secousses d'écran, plein écran automatique,
+  et **toutes les touches du clavier** modifiables. Sons et musique sont générés par le navigateur (`js/audio.js`).
+- **Équipes** : de 1 à 3 Pokémon (3v3) ou de 1 à 6 (6v6). Tu affrontes autant d'adversaires que tu as de Pokémon
+  (le dernier est un boss à partir de 3 adversaires).
+- **Animations** : Pokéball pour la relève (rappel puis envoi), l'entrée après un K.O. et l'arrivée de chaque ennemi
+  (`js/pokeball.js`) ; message K.O. avec ralenti, zoom et recul de caméra (`js/vfx.js`).
+- **Effets par type** : feu (flammes et braises), glace (givre, éclats, neige), eau (gouttes), foudre (arcs), plante (feuilles),
+  poison (bulles), dragon, ténèbres, acier, vol, combat… dans `js/vfx.js` (fonctions `trail`, `hitFx2`, cast).
+
+| Je veux… | Fichier |
+|---|---|
+| Changer les sons / la musique | `js/audio.js` |
+| Changer les réglages par défaut, les touches par défaut | `js/settings.js` |
+| Modifier l'écran Options | `js/options.js` |
+| Changer l'apparence d'un type d'attaque, le K.O., les chocs | `js/vfx.js` |
+| Changer l'animation de Pokéball | `js/pokeball.js` |

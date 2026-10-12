@@ -50,3 +50,14 @@ input#tn{background:#fff;color:#222;border:2px solid #fff4;border-radius:8px;pad
 /* Types : pastilles colorées et libellé sous le nom de l'attaque */
 .ab small{display:block;font-size:8px;opacity:.85;font-weight:400}
 .tc{display:inline-block;color:#fff;border-radius:6px;padding:0 4px;margin:0 1px;font-size:8px;text-shadow:0 1px 1px #000a}
+
+/* Plein écran, options, touches */
+#fsBtn{position:absolute;left:calc(50% + 34px);bottom:10px;width:44px;height:30px;border:2px solid #fff5;border-radius:8px;background:#2a3547b0;color:#fff;font:700 16px "Courier New",monospace;z-index:5}
+.opts{max-height:235px;text-align:left}
+.opts h3{margin:6px 0 2px;font-size:12px;color:#ffd23f}
+.opt{display:flex;align-items:center;gap:8px;margin:3px 0;font-size:11px}
+.opt span{width:120px}.opt input{flex:1;accent-color:#ffd23f}.opt b{width:38px;text-align:right}
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.kbtn{background:#2a3547;color:#fff;border:2px solid #fff4;border-radius:8px;padding:3px;font:inherit;cursor:pointer}
+.kbtn small{display:block;font-size:9px;opacity:.8}.kbtn b{display:block;font-size:11px}
+.kbtn.wait{border-color:#ffd23f;background:#4a3f1a}

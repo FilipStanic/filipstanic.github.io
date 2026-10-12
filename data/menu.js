@@ -9,5 +9,5 @@ const MAIN_MENU = [
   { id:'teams',   label:'Mes équipes',   desc:'Créer et modifier tes équipes (3v3 / 6v6)', screen:'teams' },
   { id:'versus',  label:'Combat libre',  desc:'', soon:true },
   { id:'online',  label:'Multijoueur',   desc:'', soon:true },
-  { id:'options', label:'Options',       desc:'', soon:true }
+  { id:'options', label:'Options',       desc:'Son, touches, plein écran', screen:'options' }
 ];

@@ -11,7 +11,7 @@ function enemyTeam(size){
 function startSolo(team, stageIndex){
   const S = STAGES[stageIndex];
   Save.lastTeam = team.id;
-  start({ mode:'solo', team:team.members.slice(), size:team.size, teamId:team.id, stageIndex, stage:S, arena:S.arena, enemies:enemyTeam(team.size) });
+  start({ mode:'solo', team:team.members.slice(), size:team.size, teamId:team.id, stageIndex, stage:S, arena:S.arena, enemies:enemyTeam(team.members.length) });
 }
 
 function battleEnd(win){
@@ -34,11 +34,14 @@ function battleEnd(win){
 
 function pauseGame(){
   if(!G || G.over || G.paused) return;
-  G.paused = true;
-  menu(`<h1>Pause</h1><div class='row'><button class='btn' id='rs'>Reprendre</button><button class='btn2' id='qt'>Quitter</button></div>`);
+  G.paused = true; showPauseMenu();
+}
+function showPauseMenu(){
+  menu(`<h1>Pause</h1><div class='row'><button class='btn' id='rs'>Reprendre</button><button class='btn2' id='op'>Options</button><button class='btn2' id='qt'>Quitter</button></div>`);
   document.getElementById('rs').onclick = resumeGame;
+  document.getElementById('op').onclick = () => showOptions(showPauseMenu);
   document.getElementById('qt').onclick = () => { G = null; showMain(); };
 }
 function resumeGame(){ if(!G) return; G.paused = false; menu(''); last = performance.now(); }
 document.getElementById('pauseBtn').addEventListener('pointerdown', () => { if(G && G.paused) resumeGame(); else pauseGame(); });
-addEventListener('keydown', e => { if(e.code === 'Escape'){ if(G && G.paused) resumeGame(); else pauseGame(); } });
+addEventListener('keydown', e => { if(e.target && e.target.tagName === 'INPUT') return; if(canon(e.code) === 'Escape'){ if(G && G.paused) resumeGame(); else pauseGame(); } });

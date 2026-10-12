@@ -28,7 +28,7 @@ const Save = {
     const d = this.load();
     d.teams.forEach(t => {
       t.members = t.members.filter((id, i, arr) => ORDER.includes(id) && arr.indexOf(id) === i);
-      for(const id of ORDER){ if(t.members.length >= t.size) break; if(!t.members.includes(id)) t.members.push(id); }
+      if(!t.members.length && ORDER.length) t.members.push(ORDER[0]);        // une équipe garde toujours au moins 1 Pokémon
     });
     if(!d.teams.length && ORDER.length >= 3){
       const prefer = ['farfuret', 'dracaufeu', 'fouinar'].filter(id => ORDER.includes(id));

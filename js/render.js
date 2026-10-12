@@ -13,12 +13,12 @@ function hud(){const p=G.p,e=G.e;
  for(let i=0;i<G.team.length;i++)pip(54+i*18,58,G.team[i].hp<=0?2:G.team[i]==p?1:0);for(let i=0;i<G.et.length;i++)pip(VW-54-i*18,58,i<G.wave?2:i==G.wave?1:0);
  const s=Math.floor(G.time),tm=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');ctx.fillStyle='#14101ccc';ctx.fillRect(VW/2-30,48,60,22);otext(tm,VW/2,64,15,'#fff','center');
  [0,1].forEach(i=>{const l=lb[i];if(!l||l.ttl<=0)return;ctx.font='italic 900 14px "Courier New",monospace';const s=l.s+'!',w=ctx.measureText(s).width+20,x=i?VW-w-4:4;ctx.globalAlpha=Math.min(1,l.ttl*3);ctx.fillStyle='#fff';ctx.fillRect(x,80,w,22);ctx.strokeStyle=COL[l.t];ctx.lineWidth=3;ctx.strokeRect(x,80,w,22);ctx.fillStyle='#14101c';ctx.textAlign='center';ctx.fillText(s,x+w/2,96);ctx.globalAlpha=1})}
-function draw(){ctx.save();if(G.shake>0){const m=Math.min(14,G.shake*34);ctx.translate((Math.random()-.5)*m,(Math.random()-.5)*m)}const p=G.p,e=G.e;updCam(p,e);ctx.save();ctx.translate(-Math.round(CAM.x),-Math.round(CAM.y));ctx.drawImage(bg,0,0);ctx.drawImage(TR,0,0);
+function draw(){ctx.save();if(G.shake>0){const m=Math.min(14,G.shake*34);ctx.translate((Math.random()-.5)*m*Settings.get().shake,(Math.random()-.5)*m*Settings.get().shake)}applyZoom();const p=G.p,e=G.e;updCam(p,e);ctx.save();ctx.translate(-Math.round(CAM.x),-Math.round(CAM.y));ctx.drawImage(bg,0,0);ctx.drawImage(TR,0,0);
  const sp=(s,x,y,k,fl,a)=>{a=a||{ox:0,oy:0,sx:1,sy:1,rot:0};ctx.save();ctx.translate(Math.round(x),Math.round(y));ctx.fillStyle='#0003';ctx.strokeStyle='#ffffffa0';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,s.sy!==undefined?s.sy*k:s.height*k*.3,s.sw!==undefined?s.sw*k:s.width*k*.42,s.sh!==undefined?s.sh*k:s.height*k*.15,0,0,6.3);ctx.fill();ctx.stroke();ctx.translate(Math.round(a.ox),Math.round(a.oy));ctx.rotate(a.rot);ctx.scale(a.sx,a.sy);if(fl)ctx.scale(1,-1);ctx.drawImage(a.f?flash(s):s,-s.width*k/2,-s.height*k/2,s.width*k,s.height*k);ctx.restore()};
- if(e.hp>0||G.wait>1.6){ctx.globalAlpha=e.hp>0?1:.4;sp(mon(e,1),e.x,e.y,e.boss?3:2,0,animOf(e,p.x,p.y,1));ctx.globalAlpha=1;
+ if((e.hp>0||G.wait>1.6)&&!e.hid){ctx.globalAlpha=e.hp>0?1:.4;sp(mon(e,1),e.x,e.y,e.boss?3:2,0,animOf(e,p.x,p.y,1));ctx.globalAlpha=1;
   if(e.tele>0){const k=1-e.tele/e.tm;ctx.strokeStyle='#ff3b3b';ctx.lineWidth=3;ctx.beginPath();ctx.arc(e.x,e.y,e.r+4+k*18,0,6.3);ctx.stroke();ctx.fillStyle='#ff3b3b55';ctx.beginPath();ctx.arc(e.x,e.y,(e.r+4)*k,0,6.3);ctx.fill()}}
  drawRocks();drawBullets();
- if(!(p.inv>0&&Math.floor(G.time*20)%2)){ctx.globalAlpha=p.dT>0?.5:1;sp(mon(p,0),p.x,p.y,2,0,animOf(p,e.x,e.y,0));ctx.globalAlpha=1}
+ if(!(p.inv>0&&Math.floor(G.time*20)%2)&&!p.hid){ctx.globalAlpha=p.dT>0?.5:1;sp(mon(p,0),p.x,p.y,2,0,animOf(p,e.x,e.y,0));ctx.globalAlpha=1}
  for(let i=0;i<3;i++)if(p.ch[i]>0){ctx.strokeStyle=i==2?'#ffd23f':'#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,18+p.ch[i]*14,0,6.3*p.ch[i]);ctx.stroke()}
  drawFx();ctx.textAlign='center';ctx.lineJoin='round';for(const t of txt){ctx.font=`italic 900 ${t.f||16}px "Courier New",monospace`;ctx.globalAlpha=Math.min(1,t.t*2);ctx.strokeStyle='#3a2a1a';ctx.lineWidth=4;ctx.strokeText(t.s,t.x,t.y);ctx.fillStyle=t.c;ctx.fillText(t.s,t.x,t.y)}ctx.globalAlpha=1;
  ctx.restore();offscreenArrow(p,e);
@@ -27,7 +27,7 @@ function draw(){ctx.save();if(G.shake>0){const m=Math.min(14,G.shake*34);ctx.tra
  hud();
  
  if(G.intro>0){ctx.fillStyle='#000a';ctx.fillRect(0,VH/2-30,VW,60);ctx.fillStyle='#fff';ctx.font='bold 22px "Courier New",monospace';ctx.textAlign='center';ctx.fillText(e.boss?'COMBAT FINAL !':`Combat ${G.wave+1}`,VW/2,VH/2+8)}
- ctx.restore();
+ drawScreenFx();ctx.restore();
  for(let i=0;i<3;i++){const b=bt[i],m=p.mv[i];b.firstChild&&(b.querySelector('i').style.height=Math.max(0,p.cd[i]/p.cm[i])*100+'%',b.querySelector('em').style.width=p.ch[i]*100+'%',b.style.borderColor=COL[m.tp||p.t])}
  bt[3].querySelector('i').style.height=Math.max(0,p.dC/1.3)*100+'%'}
-function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;if(G&&!G.over&&!G.paused){step(dt);if(G&&!G.over)draw();else if(G)draw()}requestAnimationFrame(loop)}
+function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;if(G&&!G.over&&!G.paused){step(dt*timeScale());if(G&&!G.over)draw();else if(G)draw()}requestAnimationFrame(loop)}

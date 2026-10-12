@@ -38,7 +38,7 @@ function start(cfg){
   G={team,p:team[0],et:cfg.enemies,stage:cfg.stage||STAGE_DEFAULT,cfg,wave:0,time:0,shake:0,wait:0,over:0,swc:0};
   bullets.length=0;txt.length=0;fx.length=0;rocks=ROCK_LAYOUT.map(([x,y])=>({x:W*x,y:H*y,r:16,hp:60,m:60}));CAM.init=false;setBtns();spawn();menu('');last=performance.now()}
 function spawn(){
-  const w=G.wave,t=G.et[w],boss=w==G.et.length-1,S=G.stage;
+  const w=G.wave,t=G.et[w],boss=G.et.length>=3&&w==G.et.length-1,S=G.stage;
   makeArena(S.arena!==undefined?S.arena:w);TR.getContext('2d').clearRect(0,0,W,H);pt.length=0;zn.length=0;bm.length=0;
   const hp=Math.round(HERO[t].hp*S.hp*(boss?S.boss:1)*(1+.05*w));
   G.e={t,x:G.p.x<W/2?G.p.x+380:G.p.x-380,y:G.p.y,hp,r:boss?36:24,tele:0,next:1.6,pat:0,ph:Math.random()*6,boss,intro:1.6,st:null,stT:0};G.e.max=G.e.hp;G.intro=1.6}
